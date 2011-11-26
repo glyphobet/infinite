@@ -1,4 +1,5 @@
 import pdb
+import abc
 import numbers
 
 class ZeroMultiplicationError(ArithmeticError):
@@ -9,22 +10,14 @@ class Infinite(numbers.Number):
     def __init__(self, positive=True):
         self.positive = positive
 
+    def __repr__(self):
+        return (self.positive and '+' or '-') + self.__class__.__name__
+
     def __eq__(self, other):
         return issubclass(type(other), type(self)) and self.positive == other.positive
 
     def __neg__(self):
         return type(self)(positive=not self.positive)
-
-
-class Infinity(Infinite):
-    def __gt__(self, other):
-        return self.positive
-
-    def __lt__(self, other):
-        return not self.positive
-
-    def __repr__(self):
-        return (self.positive and '+' or '-') + self.__class__.__name__
 
     def __mul__(self, other):
         if other == 0:
@@ -38,34 +31,35 @@ class Infinity(Infinite):
         return self * other
     __floordiv__ = __truediv__
 
+    def __rtruediv__(self, other):
+        if other == 0:
+            raise ZeroMultiplicationError("multiplication by zero")
+        return self.__reciprocal__(self.positive) * other
+    __rfloordiv__ = __rtruediv__
+
+
+class Infinity(Infinite):
+    def __gt__(self, other):
+        return self.positive
+
+    def __lt__(self, other):
+        return not self.positive
+
 
 class Infinitesimal(Infinite):
     def __gt__(self, other):
-        if self.positive:
-            if other > 0:
-                return False
-            else:
-                return True
-        else:
-            if other >= 0:
-                return False
-            else:
-                return True
+        if other == 0:
+            return self.positive
+        return 0 > other
 
     def __lt__(self, other):
-        if self.positive:
-            if other <= 0:
-                return False
-            else:
-                return True
-        else:
-            if other < 0:
-                return False
-            else:
-                return True
+        if other == 0:
+            return not self.positive
+        return 0 < other
 
-    def __repr__(self):
-        return (self.positive and '+' or '-') + self.__class__.__name__
+
+Infinity.__reciprocal__ = Infinitesimal
+Infinitesimal.__reciprocal__ = Infinity
 
 
 assert -Infinity() == Infinity(False)
