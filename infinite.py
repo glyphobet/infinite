@@ -32,13 +32,24 @@ class Infinite(numbers.Number):
     __floordiv__ = __truediv__
 
     def __rtruediv__(self, other):
-        if other == 0:
-            raise ZeroMultiplicationError("multiplication by zero")
-        return self.__reciprocal__(self.positive) * other
+        return self.reciprocal(self.positive) * other
     __rfloordiv__ = __rtruediv__
+
+    @abc.abstractmethod
+    def __lt__(self, other): pass
+
+    @abc.abstractmethod
+    def __gt__(self, other): pass
+    
+    @abc.abstractproperty
+    def reciprocal(self): pass
 
 
 class Infinity(Infinite):
+    @property
+    def reciprocal(self):
+        return Infinitesimal
+
     def __gt__(self, other):
         return self.positive
 
@@ -47,6 +58,10 @@ class Infinity(Infinite):
 
 
 class Infinitesimal(Infinite):
+    @property
+    def reciprocal(self):
+        return Infinity
+
     def __gt__(self, other):
         if other == 0:
             return self.positive
@@ -56,10 +71,6 @@ class Infinitesimal(Infinite):
         if other == 0:
             return not self.positive
         return 0 < other
-
-
-Infinity.__reciprocal__ = Infinitesimal
-Infinitesimal.__reciprocal__ = Infinity
 
 
 assert -Infinity() == Infinity(False)
