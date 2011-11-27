@@ -279,6 +279,8 @@ class Infinitesimal(AbstractInfinite):
     __rfloordiv__ = AbstractInfinite.__rtruediv__
 
 
+__all__ = ['ZeroMultiplicationError', 'AbstractInfinite', 'Infinity', 'Infinitesimal']
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
