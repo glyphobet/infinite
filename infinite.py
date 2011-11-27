@@ -6,7 +6,7 @@ class ZeroMultiplicationError(ArithmeticError):
     pass
 
 
-class Infinite(numbers.Number):
+class AbstractInfinite(numbers.Number):
     def __init__(self, positive=True):
         self.positive = positive
 
@@ -45,7 +45,7 @@ class Infinite(numbers.Number):
     def reciprocal(self): pass
 
 
-class Infinity(Infinite):
+class Infinity(AbstractInfinite):
     @property
     def reciprocal(self):
         return Infinitesimal
@@ -57,7 +57,7 @@ class Infinity(Infinite):
         return not self.positive
 
 
-class Infinitesimal(Infinite):
+class Infinitesimal(AbstractInfinite):
     @property
     def reciprocal(self):
         return Infinity
