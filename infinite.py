@@ -26,9 +26,7 @@ class Infinite(numbers.Number):
     __rmul__ = __mul__
 
     def __truediv__(self, other):
-        if other == 0:
-            raise ZeroDivisionError("division by zero")
-        return self * other
+        return self * (1/other)
     __floordiv__ = __truediv__
 
     def __rtruediv__(self, other):
