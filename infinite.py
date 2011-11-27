@@ -1,5 +1,5 @@
 """
-Infinity and Infinitesimal class, derived from numbers.Number. Requires Python 3k.
+Infinity and Infinitesimal classes for Python 3. Derived from numbers.Number.
 
 >>> -Infinity() == Infinity(False)
 True
