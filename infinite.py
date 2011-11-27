@@ -80,13 +80,43 @@ assert  Infinity() != -Infinity()
 assert -Infinity() !=  Infinity()
 assert  Infinity() *  1 ==  1 *  Infinity() ==  Infinity() /  1
 assert  Infinity() * -1 == -1 *  Infinity() ==  Infinity() / -1
-assert -Infinity() *  1 ==  1 * -Infinity() == -Infinity() /  1
+assert -Infinity() *  1 ==  1 * -Infinity() == -Infinity() /  1 == (-Infinity()) / 1
+assert  1 / Infinity() == -1 / -Infinity() ==  Infinitesimal()
+assert -1 / Infinity() ==  1 / -Infinity() == -Infinitesimal()
 
-try:
-    Infinity() * 0
-except ZeroMultiplicationError:
-    pass
-else:
-    raise AssertionError()
+assert -Infinitesimal() == Infinitesimal(False)
+assert  Infinitesimal() ==  Infinitesimal()
+assert -Infinitesimal() == -Infinitesimal()
+assert  Infinitesimal() != -Infinitesimal()
+assert -Infinitesimal() !=  Infinitesimal()
+assert  Infinitesimal() *  1 ==  1 *  Infinitesimal() ==  Infinitesimal() /  1
+assert  Infinitesimal() * -1 == -1 *  Infinitesimal() ==  Infinitesimal() / -1
+assert -Infinitesimal() *  1 ==  1 * -Infinitesimal() == -Infinitesimal() /  1 == (-Infinitesimal()) / 1
+assert  1 / Infinitesimal() == -1 / -Infinitesimal() ==  Infinity()
+assert -1 / Infinitesimal() ==  1 / -Infinitesimal() == -Infinity()
+
+assert  Infinity() *  Infinitesimal() == (-Infinity()) * -Infinitesimal() ==   Infinitesimal()  *  Infinity() == (-Infinitesimal()) * -Infinity() ==  1
+assert  Infinity() * -Infinitesimal() == (-Infinity()) *  Infinitesimal() == (-Infinitesimal()) *  Infinity() ==   Infinitesimal()  * -Infinity() == -1
+
+for expr in (
+    'Infinity() * 0',
+    'Infinitesimal() * 0',
+    '0 * Infinity()',
+    '0 * Infinitesimal()',
+    '0 / Infinity()',
+    '0 / Infinitesimal()',
+    '(-Infinity()) * 0',
+    '(-Infinitesimal()) * 0',
+    '0 * -Infinity()',
+    '0 * -Infinitesimal()',
+    '0 / -Infinity()',
+    '0 / -Infinitesimal()',
+    ):
+    try:
+        eval(expr)
+    except ZeroMultiplicationError:
+        pass
+    else:
+        raise AssertionError()
 
 pdb.set_trace()
