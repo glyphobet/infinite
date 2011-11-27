@@ -1,10 +1,198 @@
-import pdb
+"""
+Infinity and Infinitesimal class, derived from numbers.Number. Requires Python 3k.
+
+>>> -Infinity() == Infinity(False)
+True
+>>> Infinity() == Infinity()
+True
+>>> -Infinity() == -Infinity()
+True
+>>> Infinity() != -Infinity()
+True
+>>> -Infinity() != Infinity()
+True
+>>> -Infinity() == Infinity(False)
+True
+>>> Infinity() == Infinity()
+True
+>>> -Infinity() == -Infinity()
+True
+>>> Infinity() != -Infinity()
+True
+>>> -Infinity() != Infinity()
+True
+>>> Infinity() * 1 == 1 * Infinity() ==  Infinity() / 1 ==  Infinity() // 1 == Infinity()
+True
+>>> Infinity() * -1 == -1 * Infinity() ==  Infinity() / -1 ==  Infinity() // -1 == -Infinity()
+True
+>>> (-Infinity()) * 1 == 1 * -Infinity() == (-Infinity()) / 1 == (-Infinity()) // 1 == -Infinity()
+True
+>>> 1 / Infinity() == -1 / -Infinity() == Infinitesimal()
+True
+>>> -1 / Infinity() == 1 / -Infinity() == -Infinitesimal()
+True
+>>> 1 // Infinity() == -1 // Infinity() == 1 // -Infinity() == -1 // -Infinity() == 0
+True
+
+>>> -Infinitesimal() == Infinitesimal(False)
+True
+>>> Infinitesimal() == Infinitesimal()
+True
+>>> -Infinitesimal() == -Infinitesimal()
+True
+>>> Infinitesimal() != -Infinitesimal()
+True
+>>> -Infinitesimal() != Infinitesimal()
+True
+>>> -Infinitesimal() == Infinitesimal(False)
+True
+>>> Infinitesimal() == Infinitesimal()
+True
+>>> -Infinitesimal() == -Infinitesimal()
+True
+>>> Infinitesimal() != -Infinitesimal()
+True
+>>> -Infinitesimal() != Infinitesimal()
+True
+>>> Infinitesimal() * 1 == 1 * Infinitesimal() ==  Infinitesimal() / 1 == Infinitesimal()
+True
+>>> Infinitesimal() * -1 == -1 * Infinitesimal() ==  Infinitesimal() / -1 == -Infinitesimal()
+True
+>>> (-Infinitesimal()) * 1 == 1 * -Infinitesimal() == (-Infinitesimal()) / 1 == -Infinitesimal()
+True
+>>> Infinitesimal() // 1 == -Infinitesimal() // 1 == Infinitesimal() // -1 == (-Infinitesimal()) // -1 == 0
+True
+>>> 1 / Infinitesimal() == -1 / -Infinitesimal() == 1 // Infinitesimal() == -1 // -Infinitesimal() == Infinity()
+True
+>>> -1 / Infinitesimal() == 1 / -Infinitesimal() == -1 // Infinitesimal() == 1 // -Infinitesimal() == -Infinity()
+True
+
+>>> Infinity() * Infinitesimal() == (-Infinity()) * -Infinitesimal() ==  Infinitesimal() * Infinity() == (-Infinitesimal()) * -Infinity() == 1
+True
+>>> Infinity() * -Infinitesimal() == (-Infinity()) * Infinitesimal() == (-Infinitesimal()) * Infinity() ==  Infinitesimal() * -Infinity() == -1
+True
+>>> Infinity() / Infinitesimal() == Infinity()
+True
+>>> Infinitesimal() / Infinity() == Infinitesimal()
+True
+
+>>> Infinitesimal() // Infinitesimal() == Infinitesimal() // Infinity() == 0
+True
+>>> Infinity() // Infinity() == 1
+True
+>>> Infinity() // Infinitesimal() == Infinity()
+True
+
+>>> Infinity() * 0
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> Infinitesimal() * 0
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> 0 * Infinity()
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> 0 * Infinitesimal()
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> 0 / Infinity()
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> 0 / Infinitesimal()
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> 0 // Infinity()
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> 0 // Infinitesimal()
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> (-Infinity()) * 0
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> (-Infinitesimal()) * 0
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> 0 * -Infinity()
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> 0 * -Infinitesimal()
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> 0 / -Infinity()
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> 0 / -Infinitesimal()
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> 0 // -Infinity()
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+>>> 0 // -Infinitesimal()
+Traceback (most recent call last):
+    ...
+ZeroMultiplicationError: multiplication by zero
+
+>>> Infinity() / 0
+Traceback (most recent call last):
+    ...
+ZeroDivisionError: division by zero
+>>> Infinitesimal() / 0
+Traceback (most recent call last):
+    ...
+ZeroDivisionError: division by zero
+>>> (-Infinity()) / 0
+Traceback (most recent call last):
+    ...
+ZeroDivisionError: division by zero
+>>> (-Infinitesimal()) / 0
+Traceback (most recent call last):
+    ...
+ZeroDivisionError: division by zero
+>>> Infinity() // 0
+Traceback (most recent call last):
+    ...
+ZeroDivisionError: division by zero
+>>> Infinitesimal() // 0
+Traceback (most recent call last):
+    ...
+ZeroDivisionError: division by zero
+>>> (-Infinity()) // 0
+Traceback (most recent call last):
+    ...
+ZeroDivisionError: division by zero
+>>> (-Infinitesimal()) // 0
+Traceback (most recent call last):
+    ...
+ZeroDivisionError: division by zero
+"""
+
+# To-Do:
+# handle addition / subtraction
+
+import sys
 import abc
 import numbers
 
+assert sys.version.startswith('3'), "Python 3 required."
+
 class ZeroMultiplicationError(ArithmeticError):
     pass
-
 
 class AbstractInfinite(numbers.Number):
     def __init__(self, positive=True):
@@ -67,6 +255,7 @@ class Infinity(AbstractInfinite):
             raise ZeroMultiplicationError("multiplication by zero")
         return 0
 
+
 class Infinitesimal(AbstractInfinite):
     @property
     def reciprocal(self):
@@ -90,79 +279,6 @@ class Infinitesimal(AbstractInfinite):
     __rfloordiv__ = AbstractInfinite.__rtruediv__
 
 
-assert -Infinity() == Infinity(False)
-assert  Infinity() ==  Infinity()
-assert -Infinity() == -Infinity()
-assert  Infinity() != -Infinity()
-assert -Infinity() !=  Infinity()
-assert   Infinity()  *  1 ==  1 *  Infinity() ==   Infinity()  /  1 ==   Infinity()  //  1 ==  Infinity()
-assert   Infinity()  * -1 == -1 *  Infinity() ==   Infinity()  / -1 ==   Infinity()  // -1 == -Infinity()
-assert (-Infinity()) *  1 ==  1 * -Infinity() == (-Infinity()) /  1 == (-Infinity()) //  1 == -Infinity()
-assert  1 / Infinity() == -1 / -Infinity() ==  Infinitesimal()
-assert -1 / Infinity() ==  1 / -Infinity() == -Infinitesimal()
-assert 1 // Infinity() == -1 // Infinity() == 1 // -Infinity() == -1 // -Infinity() == 0
-
-assert -Infinitesimal() == Infinitesimal(False)
-assert  Infinitesimal() ==  Infinitesimal()
-assert -Infinitesimal() == -Infinitesimal()
-assert  Infinitesimal() != -Infinitesimal()
-assert -Infinitesimal() !=  Infinitesimal()
-assert   Infinitesimal()  *  1 ==  1 *  Infinitesimal() ==   Infinitesimal()  /  1 ==  Infinitesimal()
-assert   Infinitesimal()  * -1 == -1 *  Infinitesimal() ==   Infinitesimal()  / -1 == -Infinitesimal()
-assert (-Infinitesimal()) *  1 ==  1 * -Infinitesimal() == (-Infinitesimal()) /  1 == -Infinitesimal()
-assert  Infinitesimal() // 1 == -Infinitesimal() // 1 == Infinitesimal() // -1 == (-Infinitesimal()) // -1 == 0
-assert  1 / Infinitesimal() == -1 / -Infinitesimal() ==  1 // Infinitesimal() == -1 // -Infinitesimal() ==  Infinity()
-assert -1 / Infinitesimal() ==  1 / -Infinitesimal() == -1 // Infinitesimal() ==  1 // -Infinitesimal() == -Infinity()
-
-assert  Infinity() *  Infinitesimal() == (-Infinity()) * -Infinitesimal() ==   Infinitesimal()  *  Infinity() == (-Infinitesimal()) * -Infinity() ==  1
-assert  Infinity() * -Infinitesimal() == (-Infinity()) *  Infinitesimal() == (-Infinitesimal()) *  Infinity() ==   Infinitesimal()  * -Infinity() == -1
-assert Infinity() / Infinitesimal() == Infinity()
-assert Infinitesimal() / Infinity() == Infinitesimal()
-
-assert Infinitesimal() // Infinitesimal() == Infinitesimal() // Infinity() == 0
-assert Infinity() // Infinity() == 1
-assert Infinity() // Infinitesimal() == Infinity()
-
-for expr in (
-    'Infinity() * 0',
-    'Infinitesimal() * 0',
-    '0 * Infinity()',
-    '0 * Infinitesimal()',
-    '0 / Infinity()',
-    '0 / Infinitesimal()',
-    '0 // Infinity()',
-    '0 // Infinitesimal()',
-    '(-Infinity()) * 0',
-    '(-Infinitesimal()) * 0',
-    '0 * -Infinity()',
-    '0 * -Infinitesimal()',
-    '0 / -Infinity()',
-    '0 / -Infinitesimal()',
-    '0 // -Infinity()',
-    '0 // -Infinitesimal()',
-    ):
-    try:
-        eval(expr)
-    except ZeroMultiplicationError:
-        pass
-    else:
-        raise AssertionError(expr)
-
-for expr in (
-    'Infinity() / 0',
-    'Infinitesimal() / 0',
-    '(-Infinity()) / 0',
-    '(-Infinitesimal()) / 0',
-    'Infinity() // 0',
-    'Infinitesimal() // 0',
-    '(-Infinity()) // 0',
-    '(-Infinitesimal()) // 0',
-    ):
-    try:
-        eval(expr)
-    except ZeroDivisionError:
-        pass
-    else:
-        raise AssertionError(expr)
-
-pdb.set_trace()
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
