@@ -212,7 +212,7 @@ class AbstractInfinite(numbers.Number):
             raise ZeroMultiplicationError("multiplication by zero")
         elif type(other) == self.reciprocal:
             return self.positive ^ other.positive and -1 or 1
-        return type(self)(positive=self.positive if other >= 0 else not self.positive)
+        return type(self)(positive=self.positive if other > 0 else not self.positive)
     __rmul__ = __mul__
 
     def __truediv__(self, other):
