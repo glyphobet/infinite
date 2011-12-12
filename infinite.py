@@ -202,7 +202,7 @@ class AbstractInfinite(numbers.Number):
         return (self.positive and '+' or '-') + self.__class__.__name__
 
     def __eq__(self, other):
-        return issubclass(type(other), type(self)) and self.positive == other.positive
+        return isinstance(other, type(self)) and self.positive == other.positive
 
     def __neg__(self):
         return type(self)(positive=not self.positive)
@@ -210,7 +210,7 @@ class AbstractInfinite(numbers.Number):
     def __mul__(self, other):
         if other == 0:
             raise ZeroMultiplicationError("multiplication by zero")
-        elif type(other) == self.reciprocal:
+        elif isinstance(other, self.reciprocal):
             return self.positive ^ other.positive and -1 or 1
         return type(self)(positive=self.positive if other > 0 else not self.positive)
     __rmul__ = __mul__
