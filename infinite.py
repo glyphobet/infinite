@@ -75,6 +75,20 @@ class Infinity(AbstractInfinite):
             raise ZeroMultiplicationError("multiplication by zero")
         return 0
 
+    def __add__(self, other):
+        if isinstance(other, Infinity):
+            if self.positive != other.positive:
+                return 0
+        return self
+
+    __radd__ = __add__
+
+    def __sub__(self, other):
+        return self + -other
+
+    def __rsub__(self, other):
+        return -self + other
+
 
 class Infinitesimal(AbstractInfinite):
     @property

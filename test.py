@@ -180,6 +180,25 @@ ZeroDivisionError: division by zero
 Traceback (most recent call last):
     ...
 ZeroDivisionError: division by zero
+
+>>> Infinity() + 1
++Infinity
+>>> 1 + Infinity()
++Infinity
+>>> Infinity() - 1
++Infinity
+>>> 1 - Infinity()
+-Infinity
+>>> Infinity() + Infinity()
++Infinity
+>>> Infinity() - Infinity()
+0
+>>> -Infinity() - Infinity()
+-Infinity
+>>> -Infinity() + Infinity()
+0
+
+
 """
 
 if __name__ == '__main__':
