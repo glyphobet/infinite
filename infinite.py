@@ -21,11 +21,20 @@ class AbstractInfinite(numbers.Number):
     def __repr__(self):
         return (self.positive and '+' or '-') + self.__class__.__name__
 
-    def __eq__(self, other):
-        return isinstance(other, type(self)) and self.positive == other.positive
+    @abc.abstractproperty
+    def reciprocal(self): pass
 
     def __neg__(self):
         return type(self)(positive=not self.positive)
+
+    def __eq__(self, other):
+        return isinstance(other, type(self)) and self.positive == other.positive
+
+    @abc.abstractmethod
+    def __lt__(self, other): pass
+
+    @abc.abstractmethod
+    def __gt__(self, other): pass
 
     def __mul__(self, other):
         if other == 0:
@@ -47,21 +56,11 @@ class AbstractInfinite(numbers.Number):
     @abc.abstractmethod
     def __rfloordiv__(self, other): pass
 
-    @abc.abstractmethod
-    def __lt__(self, other): pass
-
-    @abc.abstractmethod
-    def __gt__(self, other): pass
-    
-    @abc.abstractproperty
-    def reciprocal(self): pass
-
     def __sub__(self, other):
         return self + -other
 
     def __rsub__(self, other):
         return -self + other
-
 
 
 class Infinity(AbstractInfinite):
@@ -100,25 +99,25 @@ class Infinitesimal(AbstractInfinite):
     def __repr__(self):
         return (self.origin and str(self.origin) or '') + super(Infinitesimal, self).__repr__()
 
-    def __eq__(self, other):
-        return isinstance(other, type(self)) and self.positive == other.positive and self.origin == self.origin
-
-    def __neg__(self):
-        return type(self)(positive=not self.positive, origin=-self.origin)
-
     @property
     def reciprocal(self):
         return Infinity
 
-    def __gt__(self, other):
-        if other == self.origin:
-            return self.positive
-        return self.origin > other
+    def __neg__(self):
+        return super(Infinitesimal, self).__neg__() + -self.origin
+
+    def __eq__(self, other):
+        return super(Infinitesimal, self).__eq__(other) and self.origin == self.origin
 
     def __lt__(self, other):
         if other == self.origin:
             return not self.positive
         return self.origin < other
+
+    def __gt__(self, other):
+        if other == self.origin:
+            return self.positive
+        return self.origin > other
 
     def __floordiv__(self, other):
         if other == self.origin:
