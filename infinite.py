@@ -56,6 +56,13 @@ class AbstractInfinite(numbers.Number):
     @abc.abstractproperty
     def reciprocal(self): pass
 
+    def __sub__(self, other):
+        return self + -other
+
+    def __rsub__(self, other):
+        return -self + other
+
+
 
 class Infinity(AbstractInfinite):
     @property
@@ -82,12 +89,6 @@ class Infinity(AbstractInfinite):
         return Infinity(positive=self.positive)
 
     __radd__ = __add__
-
-    def __sub__(self, other):
-        return self + -other
-
-    def __rsub__(self, other):
-        return -self + other
 
 
 class Infinitesimal(AbstractInfinite):
@@ -135,10 +136,5 @@ class Infinitesimal(AbstractInfinite):
 
     __radd__ = __add__
 
-    def __sub__(self, other):
-        return self + -other
-
-    def __rsub__(self, other):
-        return -self + other
 
 __all__ = ['ZeroMultiplicationError', 'AbstractInfinite', 'Infinity', 'Infinitesimal']
