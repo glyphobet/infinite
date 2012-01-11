@@ -198,7 +198,40 @@ ZeroDivisionError: division by zero
 >>> -Infinity() + Infinity()
 0
 
+>>> Infinitesimal() + 1
+1+Infinitesimal
+>>> 1 + Infinitesimal()
+1+Infinitesimal
+>>> -1 + Infinitesimal()
+-1+Infinitesimal
+>>> Infinitesimal() - 1
+-1+Infinitesimal
+>>> 1 - Infinitesimal()
+1-Infinitesimal
+>>> -1 - Infinitesimal()
+-1-Infinitesimal
 
+>>> Infinitesimal() - Infinitesimal()
+0
+>>> -Infinitesimal() + Infinitesimal()
+0
+>>> Infinitesimal() + Infinitesimal()
++Infinitesimal
+>>> -Infinitesimal() -Infinitesimal()
+-Infinitesimal
+
+>>> (Infinitesimal() + 1) + (Infinitesimal() + 1)
+2+Infinitesimal
+>>> (Infinitesimal() - 1) + (Infinitesimal() + 1)
++Infinitesimal
+>>> (Infinitesimal() + 1) - (Infinitesimal() + 1)
+0
+>>> (Infinitesimal() + 1) - (Infinitesimal() - 1)
+2
+>>> (Infinitesimal() - 1) + (Infinitesimal() - 1)
+-2+Infinitesimal
+>>> (Infinitesimal() - 1) - (Infinitesimal() + 1)
+-2
 """
 
 if __name__ == '__main__':

@@ -79,7 +79,7 @@ class Infinity(AbstractInfinite):
         if isinstance(other, Infinity):
             if self.positive != other.positive:
                 return 0
-        return self
+        return Infinity(positive=self.positive)
 
     __radd__ = __add__
 
@@ -91,26 +91,54 @@ class Infinity(AbstractInfinite):
 
 
 class Infinitesimal(AbstractInfinite):
+
+    def __init__(self, positive=True, origin=0):
+        super(Infinitesimal, self).__init__(positive)
+        self.origin = origin
+
+    def __repr__(self):
+        return (self.origin and str(self.origin) or '') + super(Infinitesimal, self).__repr__()
+
+    def __eq__(self, other):
+        return isinstance(other, type(self)) and self.positive == other.positive and self.origin == self.origin
+
+    def __neg__(self):
+        return type(self)(positive=not self.positive, origin=-self.origin)
+
     @property
     def reciprocal(self):
         return Infinity
 
     def __gt__(self, other):
-        if other == 0:
+        if other == self.origin:
             return self.positive
-        return 0 > other
+        return self.origin > other
 
     def __lt__(self, other):
-        if other == 0:
+        if other == self.origin:
             return not self.positive
-        return 0 < other
+        return self.origin < other
 
     def __floordiv__(self, other):
-        if other == 0:
+        if other == self.origin:
             raise ZeroDivisionError("division by zero")
-        return 0
+        return self.origin
 
     __rfloordiv__ = AbstractInfinite.__rtruediv__
 
+    def __add__(self, other):
+        if isinstance(other, Infinitesimal):
+            if self.positive != other.positive:
+                return self.origin + other.origin
+            return Infinitesimal(self.positive, origin=self.origin + other.origin)
+        return Infinitesimal(positive=self.positive, origin=self.origin + other)
+
+    __radd__ = __add__
+
+    def __sub__(self, other):
+        return self + -other
+
+    def __rsub__(self, other):
+        return -self + other
 
 __all__ = ['ZeroMultiplicationError', 'AbstractInfinite', 'Infinity', 'Infinitesimal']
