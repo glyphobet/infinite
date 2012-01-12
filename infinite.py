@@ -131,6 +131,8 @@ class Infinitesimal(AbstractInfinite):
             if self.positive != other.positive:
                 return self.origin + other.origin
             return Infinitesimal(self.positive, origin=self.origin + other.origin)
+        elif isinstance(other, Infinity):
+            return other + self
         return Infinitesimal(positive=self.positive, origin=self.origin + other)
 
     __radd__ = __add__
