@@ -36,10 +36,13 @@ class AbstractInfinite(numbers.Number):
     @abc.abstractmethod
     def __gt__(self, other): pass
 
+    def __abs__(self):
+        return type(self)(positive=True)
+
     def __mul__(self, other):
         if other == 0:
             raise ZeroMultiplicationError("multiplication by zero")
-        elif isinstance(other, self.reciprocal):
+        elif abs(other) == self.reciprocal():
             return self.positive ^ other.positive and -1 or 1
         return type(self)(positive=self.positive if other > 0 else not self.positive)
     __rmul__ = __mul__
@@ -107,7 +110,7 @@ class Infinitesimal(AbstractInfinite):
         return super(Infinitesimal, self).__neg__() + -self.origin
 
     def __eq__(self, other):
-        return super(Infinitesimal, self).__eq__(other) and self.origin == self.origin
+        return super(Infinitesimal, self).__eq__(other) and self.origin == other.origin
 
     def __lt__(self, other):
         if other == self.origin:
@@ -118,6 +121,9 @@ class Infinitesimal(AbstractInfinite):
         if other == self.origin:
             return self.positive
         return self.origin > other
+
+    def __abs__(self):
+        return type(self)(positive=True, origin=abs(self.origin))
 
     def __floordiv__(self, other):
         if other == self.origin:

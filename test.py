@@ -241,6 +241,15 @@ ZeroDivisionError: division by zero
 +Infinity
 >>> Infinitesimal() - Infinity()
 -Infinity
+
+>>> Infinity() * (1 + Infinitesimal())
++Infinity
+>>> Infinity() * (-1 + Infinitesimal())
+-Infinity
+>>> (-Infinity()) * (1 + Infinitesimal())
+-Infinity
+>>> (-Infinity()) * (-1 + Infinitesimal())
++Infinity
 """
 
 if __name__ == '__main__':
