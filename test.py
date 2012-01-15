@@ -1,4 +1,5 @@
 """
+>>> import math
 >>> from infinite import Infinity, Infinitesimal, ZeroMultiplicationError
 
 >>> -Infinity() == Infinity(False)
@@ -31,7 +32,9 @@ True
 True
 >>> -1 / Infinity() == 1 / -Infinity() == -Infinitesimal()
 True
->>> 1 // Infinity() == -1 // Infinity() == 1 // -Infinity() == -1 // -Infinity() == 0
+>>> 1 // Infinity() == -1 // -Infinity() == 0
+True
+>>> -1 // Infinity() == 1 // -Infinity() == -1
 True
 
 >>> -Infinitesimal() == Infinitesimal(False)
@@ -60,8 +63,12 @@ True
 True
 >>> (-Infinitesimal()) * 1 == 1 * -Infinitesimal() == (-Infinitesimal()) / 1 == -Infinitesimal()
 True
->>> Infinitesimal() // 1 == -Infinitesimal() // 1 == Infinitesimal() // -1 == (-Infinitesimal()) // -1 == 0
+
+>>> Infinitesimal() // 1 == (-Infinitesimal()) // -1 == 0
 True
+>>> -Infinitesimal() // 1 == Infinitesimal() // -1 == -1
+True
+
 >>> 1 / Infinitesimal() == -1 / -Infinitesimal() == 1 // Infinitesimal() == -1 // -Infinitesimal() == Infinity()
 True
 >>> -1 / Infinitesimal() == 1 / -Infinitesimal() == -1 // Infinitesimal() == 1 // -Infinitesimal() == -Infinity()
@@ -76,7 +83,9 @@ True
 >>> Infinitesimal() / Infinity() == Infinitesimal()
 True
 
->>> Infinitesimal() // Infinitesimal() == Infinitesimal() // Infinity() == 0
+>>> Infinitesimal() // Infinity() == 0
+True
+>>> Infinitesimal() // Infinitesimal() == 1
 True
 >>> Infinity() // Infinity() == 1
 True
@@ -250,6 +259,33 @@ ZeroDivisionError: division by zero
 -Infinity
 >>> (-Infinity()) * (-1 + Infinitesimal())
 +Infinity
+
+>>> (1+Infinitesimal())//1
+1
+>>> (1+Infinitesimal())/1
+1.0+Infinitesimal
+>>> (2+Infinitesimal())//2
+1
+>>> (2+Infinitesimal())/2
+1.0+Infinitesimal
+
+>>> math.floor(Infinity())
++Infinity
+>>> math.ceil(Infinity())
++Infinity
+>>> math.floor(-Infinity())
+-Infinity
+>>> math.ceil(-Infinity())
+-Infinity
+
+>>> math.floor(Infinitesimal())
+0
+>>> math.ceil(Infinitesimal())
+1
+>>> math.floor(-Infinitesimal())
+-1
+>>> math.ceil(-Infinitesimal())
+0
 """
 
 if __name__ == '__main__':

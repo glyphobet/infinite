@@ -2,11 +2,9 @@
 Infinity and Infinitesimal classes for Python 3. Derived from numbers.Number.
 """
 
-# To-Do:
-# handle addition / subtraction
-
 import sys
 import abc
+import math
 import numbers
 
 assert sys.version.startswith('3'), "Python 3 required."
@@ -39,6 +37,12 @@ class AbstractInfinite(numbers.Number):
     def __abs__(self):
         return type(self)(positive=True)
 
+    @abc.abstractmethod
+    def __floor__(self): pass
+
+    @abc.abstractmethod
+    def __ceil__(self): pass
+
     def __mul__(self, other):
         if other == 0:
             raise ZeroMultiplicationError("multiplication by zero")
@@ -50,14 +54,20 @@ class AbstractInfinite(numbers.Number):
     def __truediv__(self, other):
         return self * (1/other)
 
-    @abc.abstractmethod
-    def __floordiv__(self, other): pass
+    def __floordiv__(self, other):
+        return math.floor(self / other)
 
     def __rtruediv__(self, other):
         return self.reciprocal(self.positive) * other
 
+    def __rfloordiv__(self, other):
+        return math.floor(other / self)
+
     @abc.abstractmethod
-    def __rfloordiv__(self, other): pass
+    def __add__(self, other): pass
+
+    @abc.abstractmethod
+    def __radd__(self, other): pass
 
     def __sub__(self, other):
         return self + -other
@@ -77,12 +87,11 @@ class Infinity(AbstractInfinite):
     def __lt__(self, other):
         return not self.positive
 
-    __floordiv__ = AbstractInfinite.__truediv__
+    def __floor__(self):
+        return self
 
-    def __rfloordiv__(self, other):
-        if other == 0:
-            raise ZeroMultiplicationError("multiplication by zero")
-        return 0
+    def __ceil__(self):
+        return self
 
     def __add__(self, other):
         if isinstance(other, Infinity):
@@ -125,12 +134,15 @@ class Infinitesimal(AbstractInfinite):
     def __abs__(self):
         return type(self)(positive=True, origin=abs(self.origin))
 
-    def __floordiv__(self, other):
-        if other == self.origin:
-            raise ZeroDivisionError("division by zero")
-        return self.origin
+    def __floor__(self):
+        return math.floor(self.origin) + (0 if self.positive else -1)
 
-    __rfloordiv__ = AbstractInfinite.__rtruediv__
+    def __ceil__(self):
+        return math.floor(self.origin) + (1 if self.positive else 0)
+
+    def __mul__(self, other):
+        return super(Infinitesimal, self).__mul__(other) + (self.origin * other if self.origin else 0)
+    __rmul__ = __mul__
 
     def __add__(self, other):
         if isinstance(other, Infinitesimal):
