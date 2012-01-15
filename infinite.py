@@ -49,6 +49,7 @@ class AbstractInfinite(numbers.Number):
         elif abs(other) == self.reciprocal():
             return self.positive ^ other.positive and -1 or 1
         return type(self)(positive=self.positive if other > 0 else not self.positive)
+
     __rmul__ = __mul__
 
     def __truediv__(self, other):
@@ -63,11 +64,13 @@ class AbstractInfinite(numbers.Number):
     def __rfloordiv__(self, other):
         return math.floor(other / self)
 
-    @abc.abstractmethod
-    def __add__(self, other): pass
+    def __add__(self, other):
+        if isinstance(other, type(self)):
+            if self.positive != other.positive:
+                return 0
+        return type(self)(positive=self.positive)
 
-    @abc.abstractmethod
-    def __radd__(self, other): pass
+    __radd__ = __add__
 
     def __sub__(self, other):
         return self + -other
@@ -92,14 +95,6 @@ class Infinity(AbstractInfinite):
 
     def __ceil__(self):
         return self
-
-    def __add__(self, other):
-        if isinstance(other, Infinity):
-            if self.positive != other.positive:
-                return 0
-        return Infinity(positive=self.positive)
-
-    __radd__ = __add__
 
 
 class Infinitesimal(AbstractInfinite):
@@ -142,16 +137,16 @@ class Infinitesimal(AbstractInfinite):
 
     def __mul__(self, other):
         return super(Infinitesimal, self).__mul__(other) + (self.origin * other if self.origin else 0)
+
     __rmul__ = __mul__
 
     def __add__(self, other):
-        if isinstance(other, Infinitesimal):
-            if self.positive != other.positive:
-                return self.origin + other.origin
-            return Infinitesimal(self.positive, origin=self.origin + other.origin)
-        elif isinstance(other, Infinity):
+        if isinstance(other, Infinity):
             return other + self
-        return Infinitesimal(positive=self.positive, origin=self.origin + other)
+        elif isinstance(other, Infinitesimal):
+            return super(Infinitesimal, self).__add__(other) + self.origin + other.origin
+        else:
+            return type(self)(positive=self.positive, origin=self.origin + other)
 
     __radd__ = __add__
 
