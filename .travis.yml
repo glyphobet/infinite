@@ -1,0 +1,5 @@
+language: python
+python:
+  - "3.2"
+# command to run tests
+script: python test.py
